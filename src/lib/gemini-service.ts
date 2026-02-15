@@ -1,7 +1,14 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
 
-const getAI = () => new GoogleGenAI({ apiKey: process.env.API_KEY });
+const getAI = () => {
+  const apiKey = import.meta.env.VITE_API_KEY || process.env.VITE_API_KEY || process.env.API_KEY || '';
+  if (!apiKey) {
+    console.error("CRITICAL: API_KEY is missing. AI features will not work.");
+    throw new Error("API Key is missing. Please check your configuration.");
+  }
+  return new GoogleGenAI({ apiKey });
+};
 
 export async function generateFullCareerReportAI(profile: any) {
   const ai = getAI();
