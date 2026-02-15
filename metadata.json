@@ -1,0 +1,7 @@
+{
+  "name": "CareerCompass",
+  "description": "A high-end 3D landing page for an AI-powered career intelligence platform, featuring rotatable 3D components and buttery smooth animations.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
