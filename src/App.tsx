@@ -16,11 +16,14 @@ import RoadmapGenerator from './components/tools/RoadmapGenerator';
 import AlumniDirectory from './components/tools/AlumniDirectory';
 import CareerRecommendation from './components/tools/CareerRecommendation';
 import CareerReport from './components/tools/CareerReport';
+import MentorshipHub from './components/tools/MentorshipHub';
+import ResourceLibrary from './components/tools/ResourceLibrary';
+import CareerChatbot from './components/tools/CareerChatbot';
 import AuthModal from './components/modals/AuthModal';
 import PricingModal from './components/modals/PricingModal';
 import Logo from './components/ui/Logo';
 
-export type ActiveTool = 'simulator' | 'validator' | 'roadmap' | 'alumni' | 'recommendation' | 'jobs' | 'report' | 'none' | 'pricing';
+export type ActiveTool = 'simulator' | 'validator' | 'roadmap' | 'alumni' | 'recommendation' | 'jobs' | 'report' | 'mentorship' | 'resources' | 'none' | 'pricing';
 
 const App: React.FC = () => {
   const { scrollYProgress } = useScroll();
@@ -34,7 +37,7 @@ const App: React.FC = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showPricingModal, setShowPricingModal] = useState(false);
   const [user, setUser] = useState<{ name: string; email: string; uid: string; plan?: string } | null>(null);
-  
+
   // Load user from local storage
   useEffect(() => {
     const savedUser = localStorage.getItem('career_compass_user');
@@ -89,7 +92,7 @@ const App: React.FC = () => {
         <div className="cursor-pointer" onClick={() => { setActiveTool('none'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
           <Logo lightText size="md" />
         </div>
-        
+
         <div className="hidden md:flex items-center space-x-10 text-sm font-semibold text-white/80">
           <button onClick={() => scrollToSection('about')} className="hover:text-white transition-colors">About</button>
           <button onClick={() => scrollToSection('tools')} className="hover:text-white transition-colors">Tools</button>
@@ -103,29 +106,29 @@ const App: React.FC = () => {
         <div className="flex items-center space-x-6">
           {user ? (
             <div className="flex items-center space-x-4">
-               <div className="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
-                 <div className="w-6 h-6 rounded-full bg-[#007AFF] flex items-center justify-center text-[10px] text-white font-bold">
-                   {user.name.charAt(0)}
-                 </div>
-                 <span className="text-white text-xs">{user.name.split(' ')[0]}</span>
-                 {user.plan === 'pro' && <div className="text-[8px] bg-[#02C39A] text-[#0A0E27] px-1.5 rounded-sm font-black uppercase">Pro</div>}
-               </div>
-               <button 
-                 onClick={handleLogout}
-                 className="text-xs text-white/50 hover:text-white transition-colors"
-               >
-                 Logout
-               </button>
+              <div className="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
+                <div className="w-6 h-6 rounded-full bg-[#007AFF] flex items-center justify-center text-[10px] text-white font-bold">
+                  {user.name.charAt(0)}
+                </div>
+                <span className="text-white text-xs">{user.name.split(' ')[0]}</span>
+                {user.plan === 'pro' && <div className="text-[8px] bg-[#02C39A] text-[#0A0E27] px-1.5 rounded-sm font-black uppercase">Pro</div>}
+              </div>
+              <button
+                onClick={handleLogout}
+                className="text-xs text-white/50 hover:text-white transition-colors"
+              >
+                Logout
+              </button>
             </div>
           ) : (
             <>
-              <button 
+              <button
                 onClick={() => setShowAuthModal(true)}
                 className="text-sm font-bold text-white/80 hover:text-white transition-all hidden sm:block"
               >
                 Create Account
               </button>
-              <button 
+              <button
                 onClick={() => setShowAuthModal(true)}
                 className="px-6 py-2.5 rounded-full bg-[#007AFF] text-white font-bold text-sm hover:bg-[#0056B3] transition-all shadow-lg shadow-blue-500/20"
               >
@@ -179,7 +182,7 @@ const App: React.FC = () => {
             className="fixed inset-0 z-[60] bg-[#0A0E27] overflow-y-auto"
           >
             <div className="min-h-screen p-6 lg:p-12 relative pt-24">
-              <button 
+              <button
                 onClick={() => setActiveTool('none')}
                 className="fixed top-8 right-8 z-[70] p-3 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all"
               >
@@ -193,26 +196,31 @@ const App: React.FC = () => {
                 {activeTool === 'alumni' && <AlumniDirectory />}
                 {activeTool === 'recommendation' && <CareerRecommendation />}
                 {activeTool === 'report' && <CareerReport />}
+                {activeTool === 'mentorship' && <MentorshipHub />}
+                {activeTool === 'resources' && <ResourceLibrary />}
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
+      {/* Global Chatbot */}
+      {user && <CareerChatbot />}
+
       {/* Modals */}
       <AnimatePresence>
         {showAuthModal && (
-          <AuthModal 
-            onClose={() => setShowAuthModal(false)} 
+          <AuthModal
+            onClose={() => setShowAuthModal(false)}
             onSuccess={(userData) => {
               setUser(userData);
               localStorage.setItem('career_compass_user', JSON.stringify(userData));
               setShowAuthModal(false);
-            }} 
+            }}
           />
         )}
         {showPricingModal && (
-          <PricingModal 
+          <PricingModal
             onClose={() => setShowPricingModal(false)}
             onUpgrade={handleUpgrade}
           />

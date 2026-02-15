@@ -5,6 +5,7 @@ import {
   Sparkles,
   Target,
   Map,
+  Book,
   ShieldCheck,
   TrendingUp,
   Users,
@@ -100,8 +101,8 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onToolClick }) => {
               {[
                 { id: 'recommendation', title: 'Finder', desc: 'AI Recommend', icon: Compass, color: 'text-gold-400' },
                 { id: 'simulator', title: 'Simulator', desc: 'Predict ROI', icon: BrainCircuit, color: 'text-teal-400' },
-                { id: 'validator', title: 'Validator', desc: 'Verify Courses', icon: ShieldCheck, color: 'text-emerald-400' },
-                { id: 'roadmap', title: 'Roadmap', desc: 'Step-by-step', icon: Map, color: 'text-blue-400' },
+                { id: 'mentorship', title: 'Mentors', desc: 'Connect', icon: Users, color: 'text-purple-400' },
+                { id: 'resources', title: 'Library', desc: 'Free Content', icon: Book, color: 'text-indigo-400' },
               ].map((tool) => (
                 <button
                   key={tool.id}

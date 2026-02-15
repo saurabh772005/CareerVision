@@ -29,7 +29,7 @@ export async function generateFullCareerReportAI(profile: any) {
   `;
 
   const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
+    model: 'gemini-1.5-flash',
     contents: [{ parts: [{ text: prompt }] }],
     config: {
       responseMimeType: "application/json",
@@ -101,7 +101,7 @@ export async function getCareerRecommendationsAI(profile: any) {
   `;
 
   const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
+    model: 'gemini-1.5-flash',
     contents: [{ parts: [{ text: prompt }] }],
     config: {
       responseMimeType: "application/json",
@@ -155,7 +155,7 @@ export async function simulateCareerPath(profile: any, comparisonPaths: any[] = 
   `;
 
   const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
+    model: 'gemini-1.5-flash',
     contents: [{ parts: [{ text: prompt }] }],
     config: {
       responseMimeType: "application/json",
@@ -203,7 +203,7 @@ export async function validateCourseAI(course: any, profile: any) {
   `;
 
   const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
+    model: 'gemini-1.5-flash',
     contents: [{ parts: [{ text: prompt }] }],
     config: {
       responseMimeType: "application/json",
@@ -242,7 +242,7 @@ export async function generateRoadmapAI(targetRole: string, currentSkills: strin
   `;
 
   const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
+    model: 'gemini-1.5-flash',
     contents: [{ parts: [{ text: prompt }] }],
     config: {
       responseMimeType: "application/json",
@@ -294,7 +294,7 @@ export async function generateSeedData(dataType: string, count: number) {
   const prompt = `Generate ${count} realistic placeholder data entries for the category: "${dataType}" in the context of an Indian career platform. Return a JSON array of objects with relevant fields.`;
 
   const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
+    model: 'gemini-1.5-flash',
     contents: [{ parts: [{ text: prompt }] }],
     config: {
       responseMimeType: "application/json",
@@ -321,3 +321,34 @@ export async function generateSeedData(dataType: string, count: number) {
     return [];
   }
 }
+
+
+export async function chatWithCareerMentor(history: { role: 'user' | 'model'; parts: { text: string }[] }[], message: string) {
+  const ai = getAI();
+
+  const systemInstruction = `You are an empathetic, expert Career Counsellor for Indian students. 
+    Your goal is to provide personalized, actionable, and encouraging advice.
+    - Context: The user is a student exploring career options, likely from a Tier-2/3 college.
+    - Tone: Professional yet friendly, motivating, and realistic.
+    - Knowledge: deeply familiar with the Indian tech market, salaries, placement scenarios, and learning resources (DSA, Web Dev, etc.).
+    - Capabilities: You can help with study schedules, roadmap customization, resume tips, and mock interview questions.
+    - Constraint: Keep answers concise (under 200 words) unless asked for a detailed explanation. Use bullet points for clarity.`;
+
+  // Construct the full conversation history for the stateless API
+  const contents = [
+    ...history,
+    { role: 'user', parts: [{ text: message }] }
+  ];
+
+  const response = await ai.models.generateContent({
+    model: 'gemini-1.5-flash',
+    contents: contents as any,
+    config: {
+      systemInstruction: { parts: [{ text: systemInstruction }] },
+      maxOutputTokens: 1000,
+    }
+  });
+
+  return response.text || '';
+}
+
