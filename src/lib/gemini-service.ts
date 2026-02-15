@@ -1,6 +1,10 @@
 
 const API_KEY = import.meta.env.VITE_API_KEY || '';
-const BASE_URL = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent";
+const API_VERSION = 'v1';
+const BASE_URL_TEMPLATE = `https://generativelanguage.googleapis.com/${API_VERSION}/models/{model}:generateContent`;
+
+// Default to the requested model, but can be overridden by validation
+let currentModel = "gemini-2.5-flash";
 
 if (!API_KEY) {
   console.error("CRITICAL: API_KEY is missing. AI features will not work.");
@@ -16,11 +20,79 @@ interface GeminiResponse {
     code: number;
     message: string;
     status: string;
+    details?: any[];
   };
+}
+
+interface ModelListResponse {
+  models?: {
+    name: string;
+    displayName: string;
+    description: string;
+    supportedGenerationMethods: string[];
+  }[];
+  error?: any;
+}
+
+// Function to validate and potentially switch models based on availability
+export async function validateGeminiConnection(): Promise<boolean> {
+  if (!API_KEY) return false;
+
+  const modelsUrl = `https://generativelanguage.googleapis.com/${API_VERSION}/models?key=${API_KEY}`;
+
+  try {
+    console.log("Validating Gemini Connection and checking available models...");
+    const response = await fetch(modelsUrl);
+
+    if (!response.ok) {
+      console.error(`Failed to fetch models list: ${response.status} ${response.statusText}`);
+      // Don't fail completely, try to proceed with default
+      return false;
+    }
+
+    const data: ModelListResponse = await response.json();
+
+    if (data.models) {
+      const availableModels = data.models.map(m => m.name.replace('models/', ''));
+      console.log("Available Models:", availableModels);
+
+      // Check if our current (default) model exists
+      if (availableModels.includes(currentModel)) {
+        console.log(`Requested model ${currentModel} is available.`);
+        return true;
+      }
+
+      // Fallback logic
+      console.warn(`Requested model ${currentModel} not found. Searching for fallback...`);
+
+      // Prefer 2.5 flash, then 2.0 flash, then any flash
+      const fallbacks = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'];
+      const foundFallback = fallbacks.find(f => availableModels.includes(f)) || availableModels.find(m => m.includes('flash'));
+
+      if (foundFallback) {
+        console.warn(`Switching to fallback model: ${foundFallback}`);
+        currentModel = foundFallback;
+        return true;
+      } else if (availableModels.length > 0) {
+        // Last resort: take the first available model that supports generateContent
+        const firstGen = availableModels[0];
+        console.warn(`No flash model found. Switching to generic fallback: ${firstGen}`);
+        currentModel = firstGen;
+        return true;
+      }
+    }
+    return true;
+  } catch (e) {
+    console.error("Gemini Connection Validation Failed:", e);
+    return false;
+  }
 }
 
 async function callGeminiAPI(prompt: string, retries = 2): Promise<string> {
   if (!API_KEY) throw new Error("API Key is missing.");
+
+  // Construct URL dynamically with currentModel
+  const url = BASE_URL_TEMPLATE.replace('{model}', currentModel) + `?key=${API_KEY}`;
 
   const payload = {
     contents: [{ parts: [{ text: prompt }] }]
@@ -28,8 +100,8 @@ async function callGeminiAPI(prompt: string, retries = 2): Promise<string> {
 
   for (let i = 0; i <= retries; i++) {
     try {
-      console.log(`Calling Gemini API (Attempt ${i + 1})...`);
-      const response = await fetch(`${BASE_URL}?key=${API_KEY}`, {
+      console.log(`Calling Gemini API (Attempt ${i + 1}) with model: ${currentModel}`);
+      const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -38,9 +110,17 @@ async function callGeminiAPI(prompt: string, retries = 2): Promise<string> {
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
 
+        console.error("Gemini API Error Detail:", {
+          model: currentModel,
+          status: response.status,
+          statusText: response.statusText,
+          url: url.replace(API_KEY, 'HIDDEN_KEY'), // Log safe URL
+          errorBody: errorData
+        });
+
         // Handle specific error codes
         if (response.status === 404) {
-          throw new Error(`Model not found (404). Check API URL: ${BASE_URL}`);
+          throw new Error(`Model '${currentModel}' not found (404). Verification failed.`);
         }
         if (response.status === 429) {
           console.warn("Rate limit exceeded. Retrying...");
@@ -66,7 +146,7 @@ async function callGeminiAPI(prompt: string, retries = 2): Promise<string> {
 }
 
 
-// --- Exported Functions (Refactored) ---
+// --- Exported Functions ---
 
 export async function generateFullCareerReportAI(profile: any) {
   const prompt = `
@@ -102,10 +182,6 @@ export async function generateFullCareerReportAI(profile: any) {
 }
 
 export async function chatWithCareerMentor(history: { role: 'user' | 'model'; parts: { text: string }[] }[], message: string) {
-  // Note: For simple REST API, we construct the prompt with history manually or just send the latest message 
-  // if we don't want to manage full multi-turn state complexity in one go. 
-  // To keep it simple and robust for this refactor, we'll append history to the prompt.
-
   const conversationHistory = history.map(h => `${h.role === 'user' ? 'Student' : 'Mentor'}: ${h.parts[0].text}`).join('\n');
 
   const prompt = `
@@ -122,18 +198,6 @@ export async function chatWithCareerMentor(history: { role: 'user' | 'model'; pa
 }
 
 export async function simulateCareerPath(profile: any) {
-  // Note: The previous signature was (currentRole, targetRole), but usage in component passed 'profile'.
-  // Adjusted to match component usage likely. Or I should check component usage.
-  // Wait, looking at previous file content... simulateCareerPath(currentRole, targetRole).
-  // But checking CareerSimulator.tsx... line 39: await simulateCareerPath(profile);
-  // So the component passes an object! The previous implementation had (currentRole, targetRole) signature but was called with profile? 
-  // No, let's look at CareerSimulator.tsx again.
-  // "const data = await simulateCareerPath(profile);"
-  // But definition was "export async function simulateCareerPath(currentRole: string, targetRole: string)"
-  // This implies the previous code was actually broken/mismatched types? 
-  // I will support BOTH or just the object since that's what is being passed.
-  // Let's support the object 'profile' as it contains 'branch' etc.
-
   const prompt = `
     Simulate a realistic career path based on this profile: ${JSON.stringify(profile)}
     
@@ -259,17 +323,5 @@ export async function generateRoadmapAI(role: string, skills: string, hours: num
   } catch (error) {
     console.error("Roadmap Error:", error);
     throw error;
-  }
-}
-
-export async function validateGeminiConnection() {
-  try {
-    console.log("Validating Gemini Connection...");
-    await callGeminiAPI("Hello, are you online?");
-    console.log("Gemini Connection Validated.");
-    return true;
-  } catch (e) {
-    console.error("Gemini Connection Failed:", e);
-    return false;
   }
 }
