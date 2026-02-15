@@ -70,23 +70,6 @@ AI Integration:
 - Gemini AI API
 
 ---
-
-## ⚙️ Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/careervision.git
-
-# Navigate into the project directory
-cd careervision
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
----
 ## 📊 How It Works
 
 User creates a profile (skills, interests, academic level).
@@ -114,6 +97,26 @@ Internship scam detection module
 Predictive career growth modeling
 
 Employer dashboard for verified hiring insights
+
+---
+
+## ⚙️ Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/careervision.git
+
+# Navigate into the project directory
+cd careervision
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+---
+
 
 👨‍💻 Author
 
