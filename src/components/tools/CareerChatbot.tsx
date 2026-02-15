@@ -40,9 +40,12 @@ const CareerChatbot: React.FC = () => {
             const responseText = await chatWithCareerMentor(historyForApi, input);
 
             setMessages(prev => [...prev, { role: 'model', parts: [{ text: responseText }] }]);
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
-            setMessages(prev => [...prev, { role: 'model', parts: [{ text: "I'm having trouble connecting right now. Please try again later." }] }]);
+            const errorMessage = error.message?.includes('API Key')
+                ? "Configuration Error: API Key is missing. Please check your .env file."
+                : "I'm having trouble connecting right now. Please try again later.";
+            setMessages(prev => [...prev, { role: 'model', parts: [{ text: errorMessage }] }]);
         } finally {
             setLoading(false);
         }
