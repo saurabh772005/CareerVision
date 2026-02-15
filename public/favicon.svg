@@ -1,0 +1,11 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" rx="16" fill="#0A0E27"/>
+  <g transform="translate(16, 16) scale(0.5)">
+    <!-- Dark Blue Pill -->
+    <rect x="0" y="10" width="28" height="44" rx="14" transform="rotate(-45 14 32)" fill="#0047FF"/>
+    <!-- Light Blue Pill -->
+    <rect x="18" y="10" width="28" height="44" rx="14" transform="rotate(-45 32 32)" fill="#00C2FF"/>
+    <!-- Teal Accent Pill -->
+    <rect x="36" y="10" width="28" height="44" rx="14" transform="rotate(-45 50 32)" fill="#02C39A"/>
+  </g>
+</svg>
