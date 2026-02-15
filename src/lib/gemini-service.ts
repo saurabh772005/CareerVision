@@ -158,15 +158,24 @@ export async function generateFullCareerReportAI(profile: any) {
     
     Output strictly in this JSON format:
     {
-      "matchScore": number (0-100),
-      "topRoles": ["Role 1", "Role 2", "Role 3"],
-      "skillsGap": ["Skill 1", "Skill 2"],
-      "marketTrends": "Brief analysis of current market demand for these roles",
-      "salaryRange": "Expected salary range in INR",
-      "roadmap": [
-        { "phase": "Month 1-2", "focus": "Topic", "resources": ["Resource 1"] },
-        { "phase": "Month 3-4", "focus": "Topic", "resources": ["Resource 2"] }
-      ]
+      "executiveSummary": "Strategic high-level summary of their career potential (2-3 sentences)",
+      "marketOutlook": number (0-100 indicating growth potential),
+      "skillGapAnalysis": [
+        { "skillName": "Specific Technical Skill", "priority": "High" | "Medium" | "Low" }
+      ],
+      "roiAnalysis": {
+        "breakEvenMonths": number,
+        "year1Salary": number (conservative estimate),
+        "year5Salary": number,
+        "year10Salary": number,
+        "yearlySalaryProjection": [number, number, ... 10 values representing salary for years 1-10]
+      },
+      "timeMetrics": {
+        "learningHoursRequired": number,
+        "jobReadyWeeks": number,
+        "burnoutRisk": number (0-100)
+      },
+      "strategicRecommendations": ["Actionable step 1", "Actionable step 2", "Actionable step 3"]
     }
     Do not include markdown formatting (like \`\`\`json). Just the raw JSON string.
   `;
