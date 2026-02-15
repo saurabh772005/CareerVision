@@ -154,7 +154,7 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     name: "Priya Sharma",
     college: "Tier-3 CSE, Now at Paytm",
-    quote: "CareerCompass showed me I didn't need that ₹2.5L bootcamp. Saved my money!",
+    quote: "CareerVision showed me I didn't need that ₹2.5L bootcamp. Saved my money!",
     rating: 5
   },
   {

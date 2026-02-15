@@ -14,7 +14,7 @@ export async function generateFullCareerReportAI(profile: any) {
 
     The report must include:
     1. executiveSummary (Professional overview of career trajectory)
-    2. roiAnalysis (JSON with: initialInvestment, breakEvenMonths, year1Salary, year5Salary, year10Salary)
+    2. roiAnalysis (JSON with: initialInvestment, breakEvenMonths, year1Salary, year5Salary, year10Salary, yearlySalaryProjection as array of 10 numbers)
     3. timeMetrics (JSON with: learningHoursRequired, jobReadyWeeks, burnoutRisk percentage)
     4. skillGapAnalysis (Array of objects with skillName and priority level)
     5. strategicRecommendations (Top 3 actionable steps)
@@ -22,7 +22,7 @@ export async function generateFullCareerReportAI(profile: any) {
   `;
 
   const response = await ai.models.generateContent({
-    model: 'gemini-3-pro-preview',
+    model: 'gemini-3-flash-preview',
     contents: [{ parts: [{ text: prompt }] }],
     config: {
       responseMimeType: "application/json",
@@ -37,9 +37,13 @@ export async function generateFullCareerReportAI(profile: any) {
               breakEvenMonths: { type: Type.NUMBER },
               year1Salary: { type: Type.NUMBER },
               year5Salary: { type: Type.NUMBER },
-              year10Salary: { type: Type.NUMBER }
+              year10Salary: { type: Type.NUMBER },
+              yearlySalaryProjection: {
+                type: Type.ARRAY,
+                items: { type: Type.NUMBER }
+              }
             },
-            required: ["initialInvestment", "breakEvenMonths", "year1Salary", "year5Salary", "year10Salary"]
+            required: ["initialInvestment", "breakEvenMonths", "year1Salary", "year5Salary", "year10Salary", "yearlySalaryProjection"]
           },
           timeMetrics: {
             type: Type.OBJECT,
@@ -144,7 +148,7 @@ export async function simulateCareerPath(profile: any, comparisonPaths: any[] = 
   `;
 
   const response = await ai.models.generateContent({
-    model: 'gemini-3-pro-preview',
+    model: 'gemini-3-flash-preview',
     contents: [{ parts: [{ text: prompt }] }],
     config: {
       responseMimeType: "application/json",
@@ -231,7 +235,7 @@ export async function generateRoadmapAI(targetRole: string, currentSkills: strin
   `;
 
   const response = await ai.models.generateContent({
-    model: 'gemini-3-pro-preview',
+    model: 'gemini-3-flash-preview',
     contents: [{ parts: [{ text: prompt }] }],
     config: {
       responseMimeType: "application/json",

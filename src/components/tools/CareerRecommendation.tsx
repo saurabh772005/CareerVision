@@ -1,20 +1,21 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Sparkles, 
-  Target, 
-  BrainCircuit, 
-  ArrowRight, 
-  ChevronRight, 
-  CheckCircle2, 
-  Star, 
-  TrendingUp, 
-  BookOpen, 
-  Zap, 
+import {
+  Sparkles,
+  Target,
+  BrainCircuit,
+  ArrowRight,
+  ChevronRight,
+  CheckCircle2,
+  Star,
+  TrendingUp,
+  BookOpen,
+  Zap,
   ArrowLeft,
   Rocket
 } from 'lucide-react';
+import LoadingSpinner from '../ui/LoadingSpinner';
 import { getCareerRecommendationsAI, generateRoadmapAI } from '../../lib/gemini-service';
 
 const CareerRecommendation: React.FC = () => {
@@ -64,19 +65,7 @@ const CareerRecommendation: React.FC = () => {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center py-32 space-y-8">
-        <motion.div 
-          animate={{ rotate: 360, scale: [1, 1.1, 1] }}
-          transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
-          className="w-20 h-20 border-4 border-[#02C39A]/20 border-t-[#02C39A] rounded-full flex items-center justify-center"
-        >
-          <BrainCircuit className="text-[#02C39A]" size={32} />
-        </motion.div>
-        <div className="text-center">
-          <h3 className="text-2xl font-bold mb-2">AI is Thinking...</h3>
-          <p className="text-[#6B7A8F] animate-pulse italic">
-            {step === 'form' ? "Analyzing your unique profile DNA..." : "Mapping out your path to success..."}
-          </p>
-        </div>
+        <LoadingSpinner size="lg" text={step === 'form' ? "Analyzing your unique profile DNA..." : "Mapping out your path to success..."} />
       </div>
     );
   }
@@ -94,9 +83,9 @@ const CareerRecommendation: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
                 <label className="block text-xs font-bold text-[#6B7A8F] uppercase tracking-widest mb-3">College Tier</label>
-                <select 
-                  value={profile.collegeType} 
-                  onChange={e => setProfile({...profile, collegeType: e.target.value})}
+                <select
+                  value={profile.collegeType}
+                  onChange={e => setProfile({ ...profile, collegeType: e.target.value })}
                   className="w-full bg-white/5 border border-white/10 p-4 rounded-2xl focus:border-[#02C39A] outline-none text-white appearance-none"
                 >
                   <option value="tier1">Tier 1 (IIT/NIT/BITS)</option>
@@ -106,10 +95,10 @@ const CareerRecommendation: React.FC = () => {
               </div>
               <div>
                 <label className="block text-xs font-bold text-[#6B7A8F] uppercase tracking-widest mb-3">Academic CGPA</label>
-                <input 
+                <input
                   type="number" step="0.1"
                   value={profile.cgpa}
-                  onChange={e => setProfile({...profile, cgpa: parseFloat(e.target.value)})}
+                  onChange={e => setProfile({ ...profile, cgpa: parseFloat(e.target.value) })}
                   className="w-full bg-white/5 border border-white/10 p-4 rounded-2xl focus:border-[#02C39A] outline-none text-white"
                 />
               </div>
@@ -117,22 +106,22 @@ const CareerRecommendation: React.FC = () => {
 
             <div>
               <label className="block text-xs font-bold text-[#6B7A8F] uppercase tracking-widest mb-3">What interests you?</label>
-              <textarea 
+              <textarea
                 placeholder="e.g. Solving puzzles, building apps, analyzing data, talking to people..."
                 rows={3}
                 value={profile.interests}
-                onChange={e => setProfile({...profile, interests: e.target.value})}
+                onChange={e => setProfile({ ...profile, interests: e.target.value })}
                 className="w-full bg-white/5 border border-white/10 p-4 rounded-2xl focus:border-[#02C39A] outline-none text-white placeholder:text-white/20"
               />
             </div>
 
             <div>
               <label className="block text-xs font-bold text-[#6B7A8F] uppercase tracking-widest mb-3">What are your core strengths?</label>
-              <textarea 
+              <textarea
                 placeholder="e.g. Logical thinking, communication, design, math, persistence..."
                 rows={3}
                 value={profile.strengths}
-                onChange={e => setProfile({...profile, strengths: e.target.value})}
+                onChange={e => setProfile({ ...profile, strengths: e.target.value })}
                 className="w-full bg-white/5 border border-white/10 p-4 rounded-2xl focus:border-[#02C39A] outline-none text-white placeholder:text-white/20"
               />
             </div>
@@ -141,12 +130,11 @@ const CareerRecommendation: React.FC = () => {
               <label className="block text-xs font-bold text-[#6B7A8F] uppercase tracking-widest mb-3">Current Knowledge Level</label>
               <div className="grid grid-cols-3 gap-4">
                 {['Beginner', 'Intermediate', 'Advanced'].map((lvl) => (
-                  <button 
+                  <button
                     key={lvl}
-                    onClick={() => setProfile({...profile, knowledgeLevel: lvl})}
-                    className={`py-4 rounded-2xl border transition-all font-bold text-sm ${
-                      profile.knowledgeLevel === lvl ? 'bg-[#02C39A] border-[#02C39A] text-[#0A0E27]' : 'bg-white/5 border-white/10 text-[#6B7A8F] hover:border-white/20'
-                    }`}
+                    onClick={() => setProfile({ ...profile, knowledgeLevel: lvl })}
+                    className={`py-4 rounded-2xl border transition-all font-bold text-sm ${profile.knowledgeLevel === lvl ? 'bg-[#02C39A] border-[#02C39A] text-[#0A0E27]' : 'bg-white/5 border-white/10 text-[#6B7A8F] hover:border-white/20'
+                      }`}
                   >
                     {lvl}
                   </button>
@@ -154,7 +142,7 @@ const CareerRecommendation: React.FC = () => {
               </div>
             </div>
 
-            <button 
+            <button
               onClick={handleGetRecommendations}
               disabled={!profile.interests || !profile.strengths}
               className="w-full py-6 rounded-3xl bg-gradient-to-r from-[#028090] to-[#02C39A] text-white font-black text-xl hover:shadow-[0_10px_30px_rgba(2,195,154,0.3)] transition-all flex items-center justify-center space-x-3 disabled:opacity-50"
@@ -185,19 +173,19 @@ const CareerRecommendation: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {recommendations.recommendations.map((career: any, i: number) => (
-              <div 
-                key={i} 
+              <div
+                key={i}
                 className="bg-white/5 border border-white/10 rounded-[32px] p-8 hover:border-[#02C39A]/40 transition-all flex flex-col group relative overflow-hidden"
               >
                 <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                   <Target size={120} />
+                  <Target size={120} />
                 </div>
-                
+
                 <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-[#02C39A] transition-colors">{career.title}</h3>
-                
+
                 <div className="space-y-4 flex-grow mb-8">
                   <p className="text-[#B8C5D6] text-sm leading-relaxed">{career.fitReason}</p>
-                  
+
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-white/5 p-3 rounded-xl">
                       <div className="text-[10px] text-[#6B7A8F] font-bold uppercase mb-1">Market Demand</div>
@@ -210,7 +198,7 @@ const CareerRecommendation: React.FC = () => {
                   </div>
                 </div>
 
-                <button 
+                <button
                   onClick={() => handleSelectCareer(career)}
                   className="w-full py-4 rounded-2xl bg-white/5 border border-white/10 font-bold group-hover:bg-[#02C39A] group-hover:text-[#0A0E27] transition-all flex items-center justify-center space-x-2"
                 >
@@ -230,8 +218,8 @@ const CareerRecommendation: React.FC = () => {
               <h3 className="text-3xl font-black text-white">{selectedCareer.title} Roadmap</h3>
               <p className="text-[#02C39A] mt-1 uppercase tracking-widest text-xs font-bold">12 Weeks Mastery Path</p>
             </div>
-            <button 
-              onClick={() => setStep('options')} 
+            <button
+              onClick={() => setStep('options')}
               className="text-[#6B7A8F] hover:text-white flex items-center space-x-1"
             >
               <ArrowLeft size={16} />
@@ -263,13 +251,13 @@ const CareerRecommendation: React.FC = () => {
                           </div>
                           <div>
                             <div className="flex flex-wrap items-center gap-2 mb-2">
-                                {week.topics.map((t: string, ti: number) => (
-                                  <span key={ti} className="text-[10px] font-bold text-[#02C39A] bg-[#02C39A]/10 px-2 py-1 rounded-md">{t}</span>
-                                ))}
+                              {week.topics.map((t: string, ti: number) => (
+                                <span key={ti} className="text-[10px] font-bold text-[#02C39A] bg-[#02C39A]/10 px-2 py-1 rounded-md">{t}</span>
+                              ))}
                             </div>
                             <div className="flex items-center space-x-2 text-[10px] text-[#6B7A8F]">
-                                <BookOpen size={12} />
-                                <span className="font-bold uppercase tracking-tight">{week.resource}</span>
+                              <BookOpen size={12} />
+                              <span className="font-bold uppercase tracking-tight">{week.resource}</span>
                             </div>
                           </div>
                         </div>

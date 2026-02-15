@@ -1,14 +1,14 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Sparkles, 
-  Target, 
-  Map, 
-  ShieldCheck, 
-  TrendingUp, 
-  Users, 
-  ChevronRight, 
+import {
+  Sparkles,
+  Target,
+  Map,
+  ShieldCheck,
+  TrendingUp,
+  Users,
+  ChevronRight,
   BrainCircuit,
   ArrowUpRight,
   Clock,
@@ -27,29 +27,29 @@ interface DashboardProps {
 
 const Dashboard: React.FC<DashboardProps> = ({ user, onToolClick }) => {
   return (
-    <motion.section 
+    <motion.section
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="min-h-screen pt-32 pb-20 px-6 lg:px-24 bg-[#0A0E27]"
+      className="min-h-screen pt-32 pb-48 px-6 lg:px-24 bg-[#0A0E27]"
     >
       <div className="max-w-7xl mx-auto">
-        
+
         {/* Trial Status Banner */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8 p-4 rounded-3xl bg-gradient-to-r from-[#028090]/20 to-[#02C39A]/20 border border-[#02C39A]/30 flex flex-col sm:row items-center justify-between gap-4"
         >
           <div className="flex items-center space-x-4">
-             <div className="w-10 h-10 rounded-2xl bg-[#02C39A]/20 flex items-center justify-center text-[#02C39A]">
-                <Clock size={20} />
-             </div>
-             <div>
-                <p className="text-sm font-bold text-white">Trial Ending Soon</p>
-                <p className="text-xs text-[#B8C5D6]">You have <span className="text-[#02C39A] font-bold">2 days left</span> in your premium trial period.</p>
-             </div>
+            <div className="w-10 h-10 rounded-2xl bg-[#02C39A]/20 flex items-center justify-center text-[#02C39A]">
+              <Clock size={20} />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-white">Trial Ending Soon</p>
+              <p className="text-xs text-[#B8C5D6]">You have <span className="text-[#02C39A] font-bold">2 days left</span> in your premium trial period.</p>
+            </div>
           </div>
-          <button 
+          <button
             onClick={() => onToolClick('pricing')}
             className="px-6 py-2.5 rounded-xl bg-[#02C39A] text-[#0A0E27] font-black text-xs hover:shadow-[0_0_20px_rgba(2,195,154,0.4)] transition-all flex items-center space-x-2"
           >
@@ -77,7 +77,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onToolClick }) => {
             </h1>
             <p className="text-[#B8C5D6] mt-2">Your career intelligence dashboard is ready.</p>
           </div>
-          
+
           <div className="flex items-center space-x-4">
             <div className="text-right hidden sm:block">
               <div className="text-xs text-[#6B7A8F] font-bold uppercase mb-1">Career Readiness</div>
@@ -93,7 +93,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onToolClick }) => {
 
         {/* Main Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          
+
           {/* Left Column: Quick Actions */}
           <div className="lg:col-span-8 space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -103,7 +103,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onToolClick }) => {
                 { id: 'validator', title: 'Validator', desc: 'Verify Courses', icon: ShieldCheck, color: 'text-emerald-400' },
                 { id: 'roadmap', title: 'Roadmap', desc: 'Step-by-step', icon: Map, color: 'text-blue-400' },
               ].map((tool) => (
-                <button 
+                <button
                   key={tool.id}
                   onClick={() => onToolClick(tool.id as ActiveTool)}
                   className="group relative p-6 rounded-[32px] bg-[#1A1F3A]/60 border border-white/10 text-left hover:border-[#02C39A]/40 transition-all overflow-hidden"
@@ -132,7 +132,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onToolClick }) => {
                   <Sparkles className="text-[#02C39A]" size={24} />
                   <h3 className="text-2xl font-bold">AI Career Insights</h3>
                 </div>
-                <button 
+                <button
                   onClick={() => onToolClick('report')}
                   className="px-4 py-2 rounded-xl bg-[#02C39A]/10 border border-[#02C39A]/20 text-[#02C39A] text-xs font-bold flex items-center space-x-2 hover:bg-[#02C39A] hover:text-[#0A0E27] transition-all"
                 >
@@ -170,11 +170,11 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onToolClick }) => {
                 <h3 className="text-xl font-bold">Live Activity</h3>
                 <Clock className="text-[#6B7A8F]" size={18} />
               </div>
-              
+
               <div className="space-y-8 relative">
                 {/* Timeline Line */}
                 <div className="absolute left-[15px] top-2 bottom-2 w-px bg-white/10" />
-                
+
                 {[
                   { title: "Alumni Match Found", time: "1h ago", desc: "NIT Alum @ Google", icon: Users, color: "bg-blue-500" },
                   { title: "Course Validated", time: "4h ago", desc: "MERN Stack Pro Fit", icon: ShieldCheck, color: "bg-green-500" },
@@ -200,21 +200,21 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onToolClick }) => {
                 View All Activity
               </button>
             </GlassCard>
-            
+
             {/* Pro Call to Action Tab */}
             <div className="p-8 rounded-[32px] bg-[#02C39A] text-[#0A0E27] relative overflow-hidden group">
-               <div className="absolute top-0 right-0 p-4 opacity-20 transform translate-x-4 -translate-y-4">
-                  <Sparkles size={100} />
-               </div>
-               <h3 className="text-xl font-black mb-2">Upgrade to Pro</h3>
-               <p className="text-sm font-medium mb-6 opacity-80">Get 1:1 mentorship and personalized roadmaps starting today.</p>
-               <button 
-                 onClick={() => onToolClick('pricing')}
-                 className="w-full py-4 rounded-2xl bg-[#0A0E27] text-white font-bold text-xs flex items-center justify-center space-x-2 group-hover:shadow-2xl transition-all"
-               >
-                  <span>See Plans</span>
-                  <ChevronRight size={14} />
-               </button>
+              <div className="absolute top-0 right-0 p-4 opacity-20 transform translate-x-4 -translate-y-4">
+                <Sparkles size={100} />
+              </div>
+              <h3 className="text-xl font-black mb-2">Upgrade to Pro</h3>
+              <p className="text-sm font-medium mb-6 opacity-80">Get 1:1 mentorship and personalized roadmaps starting today.</p>
+              <button
+                onClick={() => onToolClick('pricing')}
+                className="w-full py-4 rounded-2xl bg-[#0A0E27] text-white font-bold text-xs flex items-center justify-center space-x-2 group-hover:shadow-2xl transition-all"
+              >
+                <span>See Plans</span>
+                <ChevronRight size={14} />
+              </button>
             </div>
           </div>
 

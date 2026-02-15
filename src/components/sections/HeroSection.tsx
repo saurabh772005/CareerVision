@@ -52,7 +52,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onStart }) => {
           transition={{ delay: 0.2 }}
           className="text-lg text-[#B8C5D6] max-w-lg mb-10 leading-relaxed font-light"
         >
-          Stop guessing your future. CareerCompass uses verified placement data and predictive AI to map your most profitable career path.
+          Stop guessing your future. CareerVision uses verified placement data and predictive AI to map your most profitable career path.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -62,15 +62,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onStart }) => {
           transition={{ delay: 0.3 }}
           className="flex flex-col sm:flex-row items-center gap-4 mb-16"
         >
-          <button 
+          <button
             onClick={onStart}
             className="w-full sm:w-auto bg-[#007AFF] hover:bg-[#0056B3] text-white px-10 py-5 rounded-2xl font-black text-lg transition-all active:scale-95 shadow-xl shadow-blue-500/20 flex items-center justify-center space-x-2"
           >
             <Sparkles size={20} />
             <span>Start Free Trial</span>
           </button>
-          
-          <button 
+
+          <button
             onClick={onStart}
             className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white px-10 py-5 rounded-2xl font-bold text-lg transition-all active:scale-95 border border-white/10 flex items-center justify-center space-x-2"
           >
@@ -96,11 +96,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onStart }) => {
 
       {/* Right Content: The Visual Composition inspired by the image */}
       <div className="relative w-full lg:w-1/2 flex items-center justify-center h-[600px] lg:h-[750px] mt-16 lg:mt-0">
-        
+
         {/* Background Layer: Concentric Rings & Glow */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           {/* Main Orange Circle Backdrop */}
-          <motion.div 
+          <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1, ease: "easeOut" }}
@@ -132,9 +132,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onStart }) => {
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
           className="relative z-10 w-[450px] h-[600px] lg:w-[550px] lg:h-[700px] flex items-end justify-center overflow-hidden"
         >
-          <img 
-            src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop" 
-            alt="Career Success Student" 
+          <img
+            src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop"
+            alt="Career Success Student"
             className="w-full h-full object-contain pointer-events-none transform translate-y-10 filter drop-shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
           />
         </motion.div>
@@ -143,12 +143,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onStart }) => {
         <motion.div
           initial={{ opacity: 0, x: -30, y: 0 }}
           // Fix: Combined duplicate 'animate' and 'transition' props into single objects to prevent JSX attribute name collisions.
-          animate={{ 
-            opacity: 1, 
+          animate={{
+            opacity: 1,
             x: 0,
             y: [0, -15, 0],
           }}
-          transition={{ 
+          transition={{
             opacity: { delay: 0.8, duration: 0.8 },
             x: { delay: 0.8, duration: 0.8 },
             y: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.8 }
@@ -170,11 +170,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onStart }) => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           // Fix: Combined duplicate 'animate' and 'transition' props. Using keyframes for 'y' allows for both the entrance and continuous floating behavior.
-          animate={{ 
+          animate={{
             opacity: 1,
             y: [30, 0, 15, 0],
           }}
-          transition={{ 
+          transition={{
             opacity: { delay: 1, duration: 0.8 },
             y: { duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }
           }}
@@ -186,49 +186,49 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onStart }) => {
               <span className="tracking-tight">Learning Chart</span>
             </div>
             <div className="flex space-x-1">
-               <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
-               <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
+              <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
+              <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
             </div>
           </div>
 
           {/* Chart Content */}
           <div className="relative h-32 flex items-end justify-between px-2">
-             {/* Dotted Grid Background */}
-             <div className="absolute inset-0 border-b border-white/5 flex flex-col justify-between">
-                <div className="w-full border-t border-white/5 border-dashed" />
-                <div className="w-full border-t border-white/5 border-dashed" />
-                <div className="w-full border-t border-white/5 border-dashed" />
-             </div>
+            {/* Dotted Grid Background */}
+            <div className="absolute inset-0 border-b border-white/5 flex flex-col justify-between">
+              <div className="w-full border-t border-white/5 border-dashed" />
+              <div className="w-full border-t border-white/5 border-dashed" />
+              <div className="w-full border-t border-white/5 border-dashed" />
+            </div>
 
-             {/* Animated Bars */}
-             {[
-               { h: '45%', color: 'bg-[#FF6B6B]', delay: 1.2 },
-               { h: '75%', color: 'bg-[#4DABF7]', delay: 1.3 },
-               { h: '35%', color: 'bg-[#02C39A]', delay: 1.4 },
-               { h: '85%', color: 'bg-[#FF922B]', delay: 1.5 },
-               { h: '60%', color: 'bg-[#845EF7]', delay: 1.6 },
-             ].map((bar, i) => (
-               <motion.div 
-                 key={i}
-                 initial={{ height: 0 }}
-                 animate={{ height: bar.h }}
-                 transition={{ delay: bar.delay, duration: 1, ease: "easeOut" }}
-                 className={`w-4 lg:w-6 rounded-t-full rounded-b-full ${bar.color} shadow-lg shadow-black/20`}
-               />
-             ))}
+            {/* Animated Bars */}
+            {[
+              { h: '45%', color: 'bg-[#FF6B6B]', delay: 1.2 },
+              { h: '75%', color: 'bg-[#4DABF7]', delay: 1.3 },
+              { h: '35%', color: 'bg-[#02C39A]', delay: 1.4 },
+              { h: '85%', color: 'bg-[#FF922B]', delay: 1.5 },
+              { h: '60%', color: 'bg-[#845EF7]', delay: 1.6 },
+            ].map((bar, i) => (
+              <motion.div
+                key={i}
+                initial={{ height: 0 }}
+                animate={{ height: bar.h }}
+                transition={{ delay: bar.delay, duration: 1, ease: "easeOut" }}
+                className={`w-4 lg:w-6 rounded-t-full rounded-b-full ${bar.color} shadow-lg shadow-black/20`}
+              />
+            ))}
           </div>
-          
+
           <div className="flex justify-between mt-4 px-1">
-             <span className="text-[9px] font-bold text-white/30 tracking-widest uppercase">7K</span>
-             <span className="text-[9px] font-bold text-white/30 tracking-widest uppercase">15K</span>
-             <span className="text-[9px] font-bold text-white/30 tracking-widest uppercase">23K</span>
+            <span className="text-[9px] font-bold text-white/30 tracking-widest uppercase">7K</span>
+            <span className="text-[9px] font-bold text-white/30 tracking-widest uppercase">15K</span>
+            <span className="text-[9px] font-bold text-white/30 tracking-widest uppercase">23K</span>
           </div>
         </motion.div>
 
         {/* Subtle Decorative Elements */}
         <div className="absolute inset-0 pointer-events-none opacity-20">
-           <div className="absolute top-[20%] left-[20%] w-[300px] h-[300px] border border-white/10 rounded-full animate-ping [animation-duration:10s]" />
-           <div className="absolute bottom-[20%] right-[20%] w-[400px] h-[400px] border border-white/10 rounded-full animate-ping [animation-duration:15s]" />
+          <div className="absolute top-[20%] left-[20%] w-[300px] h-[300px] border border-white/10 rounded-full animate-ping [animation-duration:10s]" />
+          <div className="absolute bottom-[20%] right-[20%] w-[400px] h-[400px] border border-white/10 rounded-full animate-ping [animation-duration:15s]" />
         </div>
       </div>
     </section>

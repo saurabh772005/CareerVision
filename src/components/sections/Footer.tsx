@@ -45,9 +45,9 @@ const Footer: React.FC = () => {
           <h4 className="text-white font-bold mb-8">Newsletter</h4>
           <p className="text-[#B8C5D6] text-sm mb-4">Get the latest career insights delivered weekly.</p>
           <div className="relative">
-            <input 
-              type="email" 
-              placeholder="Enter your email" 
+            <input
+              type="email"
+              placeholder="Enter your email"
               className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#02C39A] transition-colors"
             />
             <button className="absolute right-2 top-2 px-4 py-1 rounded-lg bg-[#02C39A] text-[#0A0E27] text-sm font-bold">
@@ -58,7 +58,7 @@ const Footer: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto pt-12 border-t border-white/5 flex flex-col md:row items-center justify-between text-[#6B7A8F] text-sm">
-        <p>© 2026 CareerCompass. Built with <Heart size={14} className="inline text-red-500 mx-1" /> for Indian Students.</p>
+        <p>© 2026 CareerVision. Built with <Heart size={14} className="inline text-red-500 mx-1" /> for Indian Students.</p>
         <div className="flex space-x-6 mt-4 md:mt-0">
           <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
           <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
