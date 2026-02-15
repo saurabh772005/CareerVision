@@ -157,3 +157,82 @@ export async function validateCourseAI(course: any, userProfile: any) {
     throw error;
   }
 }
+
+export async function getCareerRecommendationsAI(profile: any) {
+  const genAI = getAI();
+  const modelName = "gemini-pro";
+  console.log("Generating Recommendations with model:", modelName);
+  const model = genAI.getGenerativeModel({ model: modelName });
+
+  const prompt = `
+    Analyze this student profile and suggest top 3 career paths in the Indian tech market.
+    Profile: ${JSON.stringify(profile)}
+
+    Output strictly in this JSON format:
+    {
+      "summary": "Brief encouraging summary of their potential",
+      "recommendations": [
+        {
+          "title": "Job Title",
+          "fitReason": "Why this fits their profile",
+          "marketDemand": "High/Medium/Low",
+          "averageSalary": "e.g. 8-12 LPA"
+        }
+      ]
+    }
+    No markdown.
+  `;
+
+  try {
+    const result = await model.generateContent(prompt);
+    const text = result.response.text();
+    return JSON.parse(text.replace(/```json/g, '').replace(/```/g, '').trim());
+  } catch (error) {
+    console.error("Recommendation Error:", error);
+    throw error;
+  }
+}
+
+export async function generateRoadmapAI(role: string, skills: string, hours: number, weeks: number) {
+  const genAI = getAI();
+  const modelName = "gemini-pro";
+  console.log("Generating Roadmap with model:", modelName);
+  const model = genAI.getGenerativeModel({ model: modelName });
+
+  const prompt = `
+    Create a ${weeks}-week study roadmap for becoming a "${role}".
+    Current Skills: ${skills}.
+    Weekly Commitment: ${hours} hours.
+
+    Output strictly in this JSON format:
+    {
+      "roadmap": {
+        "targetRole": "${role}",
+        "totalWeeks": ${weeks},
+        "phases": [
+          {
+            "title": "Phase Name",
+            "projectIdea": "Capstone Project Idea",
+            "weeks": [
+              {
+                "week": "Week 1",
+                "topics": ["Topic 1", "Topic 2"],
+                "resource": "Recommended course/doc"
+              }
+            ]
+          }
+        ]
+      }
+    }
+    No markdown.
+  `;
+
+  try {
+    const result = await model.generateContent(prompt);
+    const text = result.response.text();
+    return JSON.parse(text.replace(/```json/g, '').replace(/```/g, '').trim());
+  } catch (error) {
+    console.error("Roadmap Error:", error);
+    throw error;
+  }
+}
